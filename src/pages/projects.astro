@@ -1,0 +1,84 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { Icon } from "astro-icon/components";
+import projects from "../data/projects.json";
+
+interface RepoMeta {
+	stars: number;
+	updated: string;
+}
+
+async function fetchRepoMeta(github: string): Promise<RepoMeta | null> {
+	const repo = github.replace("https://github.com/", "");
+	try {
+		const headers: Record<string, string> = {
+			Accept: "application/vnd.github+json",
+		};
+		const token = process.env.GITHUB_TOKEN;
+		if (token) {
+			headers.Authorization = `Bearer ${token}`;
+		}
+		const res = await fetch(`https://api.github.com/repos/${repo}`, {
+			headers,
+		});
+		if (!res.ok) {
+			return null;
+		}
+		const data = await res.json();
+		return {
+			stars: data.stargazers_count ?? 0,
+			updated: (data.pushed_at ?? "").slice(0, 10),
+		};
+	} catch {
+		return null;
+	}
+}
+
+const cards = await Promise.all(
+	projects.map(async (p) => ({
+		...p,
+		meta: p.github ? await fetchRepoMeta(p.github) : null,
+	})),
+);
+---
+<MainGridLayout title="作品集" description="專案與實作記錄">
+    <div class="flex flex-col gap-4 mb-4">
+        {cards.map((p) => (
+            <div class="card-base p-6 onload-animation">
+                <div class="flex items-center justify-between gap-2 flex-wrap">
+                    <a href={p.github || p.demo} target="_blank" rel="noopener" class="font-bold text-xl text-90 hover:text-[var(--primary)] transition">
+                        {p.name}
+                    </a>
+                    {p.meta && (
+                        <div class="flex items-center gap-3 text-sm text-black/50 dark:text-white/50 transition">
+                            <span class="flex items-center gap-1">
+                                <Icon name="fa6-solid:star" class="text-[0.85rem]" />
+                                {p.meta.stars}
+                            </span>
+                            {p.meta.updated && <span>更新於 {p.meta.updated}</span>}
+                        </div>
+                    )}
+                </div>
+                <p class="text-75 mt-2 mb-4 transition">{p.desc}</p>
+                <div class="flex items-center gap-2 flex-wrap">
+                    {p.tech.map((t) => (
+                        <span class="text-xs px-2 py-1 rounded-md bg-[var(--btn-regular-bg)] text-[var(--btn-content)] transition">
+                            {t}
+                        </span>
+                    ))}
+                    <div class="flex-1"></div>
+                    {p.github && (
+                        <a href={p.github} target="_blank" rel="noopener" aria-label={`${p.name} 的 GitHub`} class="btn-regular rounded-lg h-8 w-8 flex items-center justify-center active:scale-90">
+                            <Icon name="fa6-brands:github" class="text-[1rem]" />
+                        </a>
+                    )}
+                    {p.demo && (
+                        <a href={p.demo} target="_blank" rel="noopener" aria-label={`${p.name} 的網站`} class="btn-regular rounded-lg h-8 w-8 flex items-center justify-center active:scale-90">
+                            <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.9rem]" />
+                        </a>
+                    )}
+                </div>
+            </div>
+        ))}
+    </div>
+</MainGridLayout>

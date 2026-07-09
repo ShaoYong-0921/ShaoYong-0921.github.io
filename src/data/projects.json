@@ -1,0 +1,34 @@
+[
+	{
+		"name": "個人網站",
+		"desc": "本站。Fuwari 主題的自維護 Astro 7 移植版，GitHub Actions 門檻式部署（lint 與型別檢查紅燈即不上線）。",
+		"tech": ["Astro", "TypeScript", "Tailwind", "GitHub Actions"],
+		"github": "https://github.com/ShaoYong-0921/ShaoYong-0921.github.io",
+		"demo": "https://shaoyong-0921.github.io/",
+		"localPath": "/home/homepi/Desktop/fuwari"
+	},
+	{
+		"name": "C++ Primer 5e 練習",
+		"desc": "《C++ Primer 5th Edition》各章習題解答，逐章推進中。",
+		"tech": ["C++"],
+		"github": "https://github.com/ShaoYong-0921/Cpp-Primer-5e-Practice",
+		"demo": "",
+		"localPath": ""
+	},
+	{
+		"name": "演算法與競程練習",
+		"desc": "UVa 線上解題與課程演算法實作的練習記錄。",
+		"tech": ["C++", "演算法"],
+		"github": "https://github.com/ShaoYong-0921/coding-practice",
+		"demo": "",
+		"localPath": ""
+	},
+	{
+		"name": "Selenium 自動化練習",
+		"desc": "以 Python + Selenium 練習網頁自動化操作的專案。",
+		"tech": ["Python", "Selenium"],
+		"github": "https://github.com/ShaoYong-0921/selenium-practice",
+		"demo": "",
+		"localPath": ""
+	}
+]
