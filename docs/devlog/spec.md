@@ -177,9 +177,16 @@ DoD：garden/ 筆記存檔數秒內可在筆記牆看到；私密筆記不可達
 
 | 缺口 | 需要時點 | 狀態 |
 |---|---|---|
-| 資訊架構 / URL / slug 規則 | M1（Issue #6） | 未完成 |
+| 資訊架構 / URL / slug 規則 | M1（Issue #6） | 已定案（見 §10） |
 | projects.json 欄位定案 | M1（Issue #7） | 草案已定（§2 F2） |
 | front matter 對應表（Obsidian → Fuwari） | M2 開工前 | 未完成 |
 | Vault 結構（資料夾、附件、公私共存、`garden/` 預留） | M2 開工前 | 未完成 |
 | 轉換錯誤處理規則（何者擋 CI） | M2 開工前 | 未完成 |
 | API 詳細設計（endpoint、schema） | M4 開工前 | 刻意延遲 |
+
+## 10. 資訊架構定案（M1 Issue #6，2026-07-09）
+
+- **Slug / 檔名**：文章檔名即 slug，純英文 kebab-case（如 `merge-sort-notes.md` → `/posts/merge-sort-notes/`），不加日期前綴；日期由 front matter 的 `published` 承載。
+- **分類與標籤**：以中文為主（如「網站建置」）；英文文章的標籤可用英文。分類保持少而穩定，標籤自由增長。
+- **雙語呈現（F5）**：每篇文章依性質擇一語言撰寫，front matter 標 `lang`（`zh_TW` / `en`）。
+- **導覽列**：首頁、彙整、關於、GitHub；「作品集」隨 Issue #7 頁面完成時加入；Lab（F8）完成後視需要加入。
