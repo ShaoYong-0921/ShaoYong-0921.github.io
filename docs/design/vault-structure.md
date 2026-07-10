@@ -32,5 +32,6 @@ vault/
 ## 待 M3 銜接
 
 - vault 位於派 `~/Desktop/vault`，本地 git（無 remote）；LiveSync/CouchDB 負責裝置間同步
+- **git 目錄必須放在 vault 外**（實際位置 `~/.vault-git`，用 `git --git-dir=~/.vault-git --work-tree=~/Desktop/vault` 操作，派上有 alias `vgit`）——因為 livesync-bridge 的 storage peer 沒有排除規則，`.git/` 放資料夾內會被整包同步進 CouchDB（2026-07-10 實際發生過，已清理）
 - 備份策略：各裝置持有完整 vault 副本（LiveSync 天然多副本）+ CouchDB 每日備份（F16）；異地加密備份另開 Issue 評估
 - 發佈觸發：派上 systemd 排程跑轉換腳本（見 conversion-rules.md）
