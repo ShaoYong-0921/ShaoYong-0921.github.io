@@ -179,9 +179,9 @@ DoD：garden/ 筆記存檔數秒內可在筆記牆看到；私密筆記不可達
 |---|---|---|
 | 資訊架構 / URL / slug 規則 | M1（Issue #6） | 已定案（見 §10） |
 | projects.json 欄位定案 | M1（Issue #7） | 草案已定（§2 F2） |
-| front matter 對應表（Obsidian → Fuwari） | M2 開工前 | 未完成 |
-| Vault 結構（資料夾、附件、公私共存、`garden/` 預留） | M2 開工前 | 未完成 |
-| 轉換錯誤處理規則（何者擋 CI） | M2 開工前 | 未完成 |
+| front matter 對應表（Obsidian → Fuwari） | M2 開工前 | 已定案（docs/design/frontmatter-mapping.md） |
+| Vault 結構（資料夾、附件、公私共存、`garden/` 預留） | M2 開工前 | 已定案（docs/design/vault-structure.md） |
+| 轉換錯誤處理規則（何者擋 CI） | M2 開工前 | 已定案（docs/design/conversion-rules.md） |
 | API 詳細設計（endpoint、schema） | M4 開工前 | 刻意延遲 |
 
 ## 10. 資訊架構定案（M1 Issue #6，2026-07-09）
