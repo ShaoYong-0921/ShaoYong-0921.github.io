@@ -25,6 +25,14 @@ services:
     restart: unless-stopped
     depends_on:
       - couchdb
+    # 以 host 使用者身分執行，vault 掛載才有寫入權（映像預設的 deno uid 寫不進）
+    # DENO_DIR/HOME 指向可寫掛載：deno 的模組快取與 localStorage 狀態都需要寫入
+    # （livesync-bridge-dat/deno 需先以一般使用者建立，否則 docker 會建成 root 所有）
+    user: "1000:1000"
+    environment:
+      DENO_DIR: /deno-data/cache
+      HOME: /deno-data
     volumes:
       - ./livesync-bridge-dat:/app/dat
       - ${VAULT_DIR:-/home/homepi/Desktop/vault}:/app/data/vault
+      - ./livesync-bridge-dat/deno:/deno-data
