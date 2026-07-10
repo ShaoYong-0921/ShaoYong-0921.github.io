@@ -7,7 +7,8 @@
 - 全新專用 vault（不遷就舊筆記；舊筆記之後挑著搬入）
 - 公私之分由 front matter `publish: true` 決定（F10），**不用資料夾區分**
 - 附件集中一個資料夾
-- 同步：Self-hosted LiveSync（M3）；版控：派上 systemd timer 自動 commit + push（F15）
+- 同步：Self-hosted LiveSync（M3）
+- **vault 不上 GitHub**（2026-07-09 需求變更）：原始筆記只存在於派與各同步裝置；派上以本地 git（無 remote）保留版本歷史，systemd timer 自動 commit（F15 修訂版）
 
 ## 資料夾結構
 
@@ -30,5 +31,6 @@ vault/
 
 ## 待 M3 銜接
 
-- vault 建為獨立 GitHub repo（private）
-- LiveSync/CouchDB 同步的是筆記內容；git 是備份與觸發發佈的通道，兩者並行
+- vault 位於派 `~/Desktop/vault`，本地 git（無 remote）；LiveSync/CouchDB 負責裝置間同步
+- 備份策略：各裝置持有完整 vault 副本（LiveSync 天然多副本）+ CouchDB 每日備份（F16）；異地加密備份另開 Issue 評估
+- 發佈觸發：派上 systemd 排程跑轉換腳本（見 conversion-rules.md）

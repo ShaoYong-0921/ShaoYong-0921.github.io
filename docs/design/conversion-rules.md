@@ -29,14 +29,16 @@
 - 缺 `description`、缺 `category`
 - 單一附件 > 2MB
 
-## CI 流程（vault repo）
+## 發佈流程（派上執行，2026-07-09 修訂：vault 不上 GitHub）
 
 ```
-push → gitleaks → 轉換腳本（Python）
-                    ├─ 有錯誤 → 紅燈，全部錯誤一次列出，不上線
-                    └─ 全過   → 產出 commit 推到網站 repo（deploy key）
-                                → 網站 repo 門檻部署接手（lint→check→build→deploy）
+systemd 排程（或手動觸發）
+  → gitleaks 本地掃描 → 轉換腳本（Python）
+       ├─ 有錯誤 → 不推送，全部錯誤一次列出寫入日誌（journalctl 可查）
+       └─ 全過   → 產物 commit 推到網站 repo（派既有 SSH 金鑰）
+                   → 網站 repo 門檻部署接手（lint→check→build→deploy）
 ```
 
+- 「紅燈即不上線」的第一道關卡在派上（轉換驗證），第二道在網站 repo 的 CI 門檻
 - 錯誤訊息格式：`筆記路徑: 錯誤類型: 說明`，一次列出所有錯誤（不要修一個跑一次）
 - 轉換腳本本身要有單元測試（對應教科書 Ch 19–20 的測試練習）

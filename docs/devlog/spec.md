@@ -39,7 +39,7 @@
 | 編號 | 需求 | 優先級 |
 |---|---|---|
 | F14 | 四平台 Obsidian 經 Self-hosted LiveSync + CouchDB（派上 Docker）即時同步，走 Tailscale，開 E2E 加密 | P0 |
-| F15 | 派上 systemd timer 自動 commit + push vault 到 GitHub（裝置端免 Git 操作） | P0 |
+| F15 | 派上 systemd timer 自動 commit vault 到**本地 git**（不上 GitHub，2026-07-09 修訂）；轉換產物由派直接推送網站 repo | P0 |
 | F16 | CouchDB 每日備份 + 已演練過還原 | P0 |
 
 ### D. 未來功能（架構已預留，不排入 M1–M4）
@@ -62,14 +62,14 @@
 [Raspberry Pi 4（Docker + UFW）]
    - CouchDB（M3）＝LiveSync 同步中樞
    - code-server（既有）＝瀏覽器 IDE，綁 Tailscale IP
-   - systemd timer（M3）＝vault 自動 commit + push
+   - systemd timer（M3）＝vault 本地 git 自動 commit + 觸發轉換發佈
    - FastAPI（M4）＝統計 API ◄─ Cloudflare Tunnel（M4 才建）◄─ 訪客
    - Perlite（M5）＝garden/ 即時筆記牆
-        │ git push
-        ▼
-[筆記 repo] ─► [GitHub Actions] ─► [GitHub Pages（Fuwari）]
-              篩選 publish、wiki link         ▲
-              轉換、lint、建置          訪客瀏覽（CDN）
+        │ 派上轉換（篩選 publish、wiki link、驗證、gitleaks）
+        ▼ 產物 git push（原始筆記不上 GitHub）
+[網站 repo] ─► [GitHub Actions] ─► [GitHub Pages（Fuwari）]
+              品質門檻、建置、部署        ▲
+                                    訪客瀏覽（CDN）
 ```
 
 **通道原則**：私人服務（IDE、SSH、DB 管理）一律走 Tailscale，公網上不存在；只有「訪客瀏覽器要呼叫」的服務（M4 統計 API）才經 Cloudflare Tunnel 對外。
@@ -110,7 +110,7 @@ Fuwari template 建站：config 客製、中英路由、KaTeX、作品集（proj
 DoD：網址可訪問、中英切換、深色模式、push 即自動更新。
 
 **M2 筆記 pipeline（週 3–4）**
-先補三份設計文件（見 §9）；vault repo + Python 轉換腳本 + Actions 串接；gitleaks 掃描進 CI。
+先補三份設計文件（見 §9）；派上 vault（本地 git）+ Python 轉換腳本 + systemd 排程串接；gitleaks 於推送前本地掃描。（2026-07-09 修訂：原始筆記不上 GitHub，轉換在派上執行）
 DoD：標 `publish: true` 的筆記從存檔到上線全程零手動；轉換錯誤擋 CI。
 
 **M3 派同步中樞（週 5–7，全走 Tailscale，不需 Tunnel）**
