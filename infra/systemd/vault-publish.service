@@ -1,0 +1,6 @@
+[Unit]
+Description=Vault publish pipeline (snapshot, gitleaks, convert, push)
+
+[Service]
+Type=oneshot
+ExecStart=%h/Desktop/fuwari/scripts/vault-publish/publish.sh
