@@ -42,7 +42,13 @@
 | F15 | 派上 systemd timer 自動 commit vault 到**本地 git**（不上 GitHub，2026-07-09 修訂）；轉換產物由派直接推送網站 repo | P0 |
 | F16 | CouchDB 每日備份 + 已演練過還原 | P0 |
 
-### D. 未來功能（架構已預留，不排入 M1–M4）
+### D. 基礎設施（Infrastructure as Code，2026-07-09 新增）
+
+| 編號 | 需求 | 優先級 |
+|---|---|---|
+| F17 | 派上全部自架服務（code-server、CouchDB、轉換排程、M4 API、M5 Perlite）以 docker compose 定義於網站 repo 的 `infra/`；新機器裝 Docker + Tailscale 後 `compose up` 即可重建服務層。機密走 `.env`（不進 repo，附 `.env.example` 範本）；資料走 volume，配合 F16 備份還原 | P1 |
+
+### E. 未來功能（架構已預留，不排入 M1–M4）
 
 - **即時筆記牆（M5，Perlite）**：`garden/` 資料夾由派上 Perlite 容器即時渲染，與精選發佈並存（精選＝門面、CDN；筆記牆＝即時、動態）。先僅 Tailscale，視需求再公開。
 - 公私筆記分流（需認證）、留言、瀏覽統計以外的 API（搜尋等）。
@@ -114,7 +120,7 @@ DoD：網址可訪問、中英切換、深色模式、push 即自動更新。
 DoD：標 `publish: true` 的筆記從存檔到上線全程零手動；轉換錯誤擋 CI。
 
 **M3 派同步中樞（週 5–7，全走 Tailscale，不需 Tunnel）**
-派加固（SSH 金鑰、ufw、fail2ban、關 lightdm/rpcbind 等閒置服務、DHCP 保留、散熱）；code-server 改綁 Tailscale IP；CouchDB compose + 四平台 LiveSync；systemd timer 自動 push；備份 + 還原演練。
+派加固（SSH 金鑰、ufw、fail2ban、關 lightdm/rpcbind 等閒置服務、DHCP 保留、散熱）；建 `infra/` compose（F17 起點）：code-server 容器化並綁 Tailscale IP、CouchDB；四平台 LiveSync；systemd timer 本地 commit + 觸發轉換；備份 + 還原演練（含 compose 重建演練）。
 DoD：任一裝置寫筆記 → 四平台同步 → 自動進 Git → 網站更新，零手動；備份可還原。
 
 **M4 第一個公開 API（週 8+）**
