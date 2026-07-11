@@ -15,3 +15,4 @@ lang: zh_TW
 哪天想把某篇公開到網站：`Ctrl+P` → 插入模板 → `publish-post` → 填 `slug`、把 `publish` 改成 `true`，存檔即可（M3 之後全自動上線）。
 
 7/11測試上傳文字
+09:54 測試自動上傳
