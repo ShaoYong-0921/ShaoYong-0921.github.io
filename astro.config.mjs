@@ -100,7 +100,10 @@ export default defineConfig({
 			}
 		}),
         svelte(),
-		sitemap(),
+		sitemap({
+			// /lab 是私人入口頁（F8），不對搜尋引擎宣傳
+			filter: (page) => !page.includes("/lab"),
+		}),
 	],
 	markdown: {
 		remarkPlugins: [

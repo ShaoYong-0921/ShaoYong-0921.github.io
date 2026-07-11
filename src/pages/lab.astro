@@ -1,0 +1,80 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { Icon } from "astro-icon/components";
+import projects from "../data/projects.json";
+
+const CODE_SERVER = "https://homepi.tail890983.ts.net:8090";
+
+// projects.json 的 localPath 是派上的主機路徑；code-server 跑在容器內，
+// 家目錄對應為 /home/coder（見 infra/docker-compose.yml 的掛載）
+const toContainerPath = (p: string) =>
+	p.replace("/home/homepi/", "/home/coder/");
+const folderUrl = (p: string) =>
+	`${CODE_SERVER}/?folder=${encodeURIComponent(toContainerPath(p))}`;
+
+const devEntries = [
+	...projects.filter((p) => p.localPath),
+	{
+		name: "Obsidian vault",
+		desc: "筆記庫（發佈管線的上游）",
+		localPath: "/home/homepi/Desktop/vault",
+	},
+];
+
+const tools = [
+	{
+		name: "Fauxton",
+		desc: "CouchDB 管理後台（LiveSync 同步中樞）",
+		url: "http://100.98.201.71:5984/_utils",
+		icon: "fa6-solid:database",
+	},
+	{
+		name: "code-server",
+		desc: "瀏覽器 IDE 首頁",
+		url: CODE_SERVER,
+		icon: "fa6-solid:code",
+	},
+	{
+		name: "GitHub Actions",
+		desc: "網站 CI／部署狀態",
+		url: "https://github.com/ShaoYong-0921/ShaoYong-0921.github.io/actions",
+		icon: "fa6-brands:github",
+	},
+];
+---
+<MainGridLayout title="Lab" description="私人開發入口">
+    <div class="card-base p-6 mb-4 onload-animation">
+        <div class="font-bold text-lg text-90 mb-2">私人入口</div>
+        <p class="text-75 text-sm">
+            本頁連結指向 Tailscale 私網（100.x／ts.net），只有我自己的裝置開得起來——訪客看到的只是一排死連結，這正是設計（spec F8）。
+        </p>
+    </div>
+
+    <div class="card-base p-6 mb-4 onload-animation">
+        <div class="font-bold text-lg text-90 mb-4">一鍵開發（code-server 直開資料夾）</div>
+        <div class="flex flex-col gap-2">
+            {devEntries.map((p) => (
+                <a href={folderUrl(p.localPath)} target="_blank" rel="noopener"
+                   class="btn-plain rounded-lg px-4 py-3 flex items-center gap-3 justify-start">
+                    <Icon name="fa6-solid:folder-open" class="text-[1rem] text-[var(--primary)]" />
+                    <span class="font-bold">{p.name}</span>
+                    <span class="text-sm text-50">{p.localPath}</span>
+                </a>
+            ))}
+        </div>
+    </div>
+
+    <div class="card-base p-6 mb-4 onload-animation">
+        <div class="font-bold text-lg text-90 mb-4">內部工具</div>
+        <div class="flex flex-col gap-2">
+            {tools.map((t) => (
+                <a href={t.url} target="_blank" rel="noopener"
+                   class="btn-plain rounded-lg px-4 py-3 flex items-center gap-3 justify-start">
+                    <Icon name={t.icon} class="text-[1rem] text-[var(--primary)]" />
+                    <span class="font-bold">{t.name}</span>
+                    <span class="text-sm text-50">{t.desc}</span>
+                </a>
+            ))}
+        </div>
+    </div>
+</MainGridLayout>
