@@ -19,6 +19,26 @@ services:
       # （不可加 :ro——entrypoint 會 chown 設定目錄，唯讀掛載使容器無法啟動）
       - ./couchdb/livesync.ini:/opt/couchdb/etc/local.d/00-livesync.ini
 
+  # 瀏覽器 IDE（取代原生 code-server.service）：工具鏈含 Node22/pnpm/Python，
+  # 沿用原有密碼/擴充/Tailscale 憑證（掛載原設定目錄），只在 Tailscale IP 可達
+  code-server:
+    build: ./code-server
+    container_name: code-server
+    restart: unless-stopped
+    ports:
+      - "${BIND_IP:-127.0.0.1}:8090:8080"
+    command: >
+      --bind-addr 0.0.0.0:8080
+      --cert /home/coder/.config/code-server/homepi.tail890983.ts.net.crt
+      --cert-key /home/coder/.config/code-server/homepi.tail890983.ts.net.key
+      /home/coder/Desktop
+    volumes:
+      - /home/homepi/Desktop:/home/coder/Desktop
+      - /home/homepi/.config/code-server:/home/coder/.config/code-server
+      - /home/homepi/.local/share/code-server:/home/coder/.local/share/code-server
+      - /home/homepi/.gitconfig:/home/coder/.gitconfig:ro
+      - /home/homepi/.ssh:/home/coder/.ssh:ro
+
   # CouchDB ⇄ 派上 vault 資料夾的雙向橋（convert.py 吃資料夾）
   # 前置：git clone --recursive https://github.com/vrtmrz/livesync-bridge
   #       設定在 livesync-bridge-dat/config.json（含機密，不進 git）

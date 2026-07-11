@@ -1,0 +1,6 @@
+[Unit]
+Description=Renew Tailscale TLS certificate and reload code-server
+
+[Service]
+Type=oneshot
+ExecStart=%h/Desktop/fuwari/scripts/renew-cert.sh
