@@ -1,0 +1,9 @@
+# code-server 容器終端提示字元：維持與原生環境一致的外觀
+# （容器內帳號實名為 coder、uid 與 homepi 相同；whoami 會回報 coder）
+case $- in *i*) ;; *) return ;; esac
+
+PS1='\[\e[01;32m\]homepi@homepi\[\e[0m\]:\[\e[01;34m\]\w\[\e[0m\]\$ '
+
+alias ls='ls --color=auto'
+alias ll='ls -alF'
+alias grep='grep --color=auto'

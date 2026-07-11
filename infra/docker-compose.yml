@@ -25,6 +25,7 @@ services:
     build: ./code-server
     container_name: code-server
     restart: unless-stopped
+    hostname: homepi
     ports:
       - "${BIND_IP:-127.0.0.1}:8090:8080"
     command: >
@@ -38,6 +39,7 @@ services:
       - /home/homepi/.local/share/code-server:/home/coder/.local/share/code-server
       - /home/homepi/.gitconfig:/home/coder/.gitconfig:ro
       - /home/homepi/.ssh:/home/coder/.ssh:ro
+      - ./code-server/bashrc:/home/coder/.bashrc:ro
 
   # CouchDB ⇄ 派上 vault 資料夾的雙向橋（convert.py 吃資料夾）
   # 前置：git clone --recursive https://github.com/vrtmrz/livesync-bridge
