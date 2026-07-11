@@ -11,6 +11,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeComponents from "rehype-components"; /* Render the custom directive content */
 import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
+import remarkBreaks from "remark-breaks"; /* 單一換行即換行，貼齊 Obsidian 的顯示行為 */
 import remarkDirective from "remark-directive"; /* Handle directives */
 import remarkGithubAdmonitionsToDirectives from "remark-github-admonitions-to-directives";
 import remarkMath from "remark-math";
@@ -107,6 +108,7 @@ export default defineConfig({
 	],
 	markdown: {
 		remarkPlugins: [
+			remarkBreaks,
 			remarkMath,
 			remarkReadingTime,
 			remarkExcerpt,
