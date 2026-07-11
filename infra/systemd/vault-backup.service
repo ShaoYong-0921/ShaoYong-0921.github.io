@@ -1,0 +1,6 @@
+[Unit]
+Description=Daily backup: CouchDB data, vault folder, infra secrets
+
+[Service]
+Type=oneshot
+ExecStart=%h/Desktop/fuwari/scripts/backup/backup.sh
