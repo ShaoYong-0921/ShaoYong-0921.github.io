@@ -34,11 +34,25 @@ services:
     volumes:
       - ./views-data:/data
 
+  # Cloudflare Tunnel：公網 api.shaoyong.dev → 本 compose 網路的 views-api:8000
+  # （派不開任何公網 port；TUNNEL_TOKEN 在 .env）
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    depends_on:
+      - views-api
+
   # 每 5 分鐘檢查 ghcr 是否有新版映像，只更新帶 enable label 的容器
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
     restart: unless-stopped
+    environment:
+      # containrrr/watchtower 停止維護，內建 docker client API 過舊（1.25），
+      # 新版 Docker daemon 最低要求 1.40——強制指定版本讓它能對話
+      DOCKER_API_VERSION: "1.44"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --label-enable --interval 300 --cleanup
