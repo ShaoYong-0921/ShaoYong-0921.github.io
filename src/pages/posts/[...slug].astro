@@ -66,7 +66,30 @@ const jsonLd = {
                         {remarkPluginFrontmatter.minutes} {" " + i18n(remarkPluginFrontmatter.minutes === 1 ? I18nKey.minuteCount : I18nKey.minutesCount)}
                     </div>
                 </div>
+                <div id="post-views" class="flex flex-row items-center" style="display: none;">
+                    <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
+                        <Icon name="material-symbols:visibility-outline-rounded"></Icon>
+                    </div>
+                    <div class="text-sm"><span id="post-views-count"></span> 次瀏覽</div>
+                </div>
             </div>
+            <script define:vars={{ viewSlug: entry.id }}>
+                (() => {
+                    const el = document.getElementById("post-views");
+                    const num = document.getElementById("post-views-count");
+                    if (!el || !num) return;
+                    const key = `viewed:${viewSlug}`;
+                    const method = sessionStorage.getItem(key) ? "GET" : "POST";
+                    fetch(`https://api.shaoyong.dev/views/${viewSlug}`, { method })
+                        .then((r) => (r.ok ? r.json() : Promise.reject()))
+                        .then((d) => {
+                            sessionStorage.setItem(key, "1");
+                            num.textContent = d.views;
+                            el.style.display = "";
+                        })
+                        .catch(() => {});
+                })();
+            </script>
 
             <!-- title -->
             <div class="relative onload-animation">
