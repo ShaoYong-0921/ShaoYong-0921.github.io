@@ -22,7 +22,8 @@ class TestViewsApi(unittest.TestCase):
     def test_healthz(self):
         r = self.client.get("/healthz")
         self.assertEqual(r.status_code, 200)
-        self.assertEqual(r.json(), {"ok": True})
+        self.assertTrue(r.json()["ok"])
+        self.assertIn("version", r.json())
 
     def test_unknown_slug_reads_zero(self):
         r = self.client.get("/views/never-seen")

@@ -52,9 +52,12 @@ def validate_slug(slug: str) -> None:
         raise HTTPException(status_code=400, detail="invalid slug")
 
 
+API_VERSION = "1.0.1"
+
+
 @app.get("/healthz")
 def healthz():
-    return {"ok": True}
+    return {"ok": True, "version": API_VERSION}
 
 
 @app.get("/views/{slug}")
