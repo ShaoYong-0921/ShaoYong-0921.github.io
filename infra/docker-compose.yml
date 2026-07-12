@@ -20,16 +20,28 @@ services:
       - ./couchdb/livesync.ini:/opt/couchdb/etc/local.d/00-livesync.ini
 
   # M4 瀏覽統計 API（docs/design/views-api.md）；port 只綁 Tailscale，
-  # 公網流量之後經 Cloudflare Tunnel 進來。Phase 2 會改用 ghcr.io 映像 + Watchtower
+  # 公網流量經 Cloudflare Tunnel 進來。映像由 Actions 建置（api-image.yml），
+  # Watchtower 依 label 自動更新
   views-api:
-    build: ../api
+    image: ghcr.io/shaoyong-0921/views-api:latest
     container_name: views-api
     restart: unless-stopped
     user: "1000:1000"
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
     ports:
       - "${BIND_IP:-127.0.0.1}:8000:8000"
     volumes:
       - ./views-data:/data
+
+  # 每 5 分鐘檢查 ghcr 是否有新版映像，只更新帶 enable label 的容器
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --label-enable --interval 300 --cleanup
 
   # 瀏覽器 IDE（取代原生 code-server.service）：工具鏈含 Node22/pnpm/Python，
   # 沿用原有密碼/擴充/Tailscale 憑證（掛載原設定目錄），只在 Tailscale IP 可達
