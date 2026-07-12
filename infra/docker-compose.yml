@@ -19,6 +19,18 @@ services:
       # （不可加 :ro——entrypoint 會 chown 設定目錄，唯讀掛載使容器無法啟動）
       - ./couchdb/livesync.ini:/opt/couchdb/etc/local.d/00-livesync.ini
 
+  # M4 瀏覽統計 API（docs/design/views-api.md）；port 只綁 Tailscale，
+  # 公網流量之後經 Cloudflare Tunnel 進來。Phase 2 會改用 ghcr.io 映像 + Watchtower
+  views-api:
+    build: ../api
+    container_name: views-api
+    restart: unless-stopped
+    user: "1000:1000"
+    ports:
+      - "${BIND_IP:-127.0.0.1}:8000:8000"
+    volumes:
+      - ./views-data:/data
+
   # 瀏覽器 IDE（取代原生 code-server.service）：工具鏈含 Node22/pnpm/Python，
   # 沿用原有密碼/擴充/Tailscale 憑證（掛載原設定目錄），只在 Tailscale IP 可達
   code-server:

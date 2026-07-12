@@ -16,7 +16,7 @@ docker pause couchdb >/dev/null
 trap 'docker unpause couchdb >/dev/null 2>&1 || true' EXIT
 
 tar czf "$OUT" \
-    -C "$INFRA" data/couchdb .env livesync-bridge-dat/config.json \
+    -C "$INFRA" data/couchdb views-data .env livesync-bridge-dat/config.json \
     -C "$HOME/Desktop" vault \
     -C "$HOME" .vault-git
 
