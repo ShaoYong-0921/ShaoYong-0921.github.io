@@ -1,5 +1,5 @@
 ---
-title: 作品介紹：個人網站與筆記發佈管線
+title: 個人網站與筆記發
 published: 2026-08-19
 description: 不只是一個部落格——從 Obsidian 筆記到自動上線的完整 pipeline，跑在一台樹梅派上。
 tags:
@@ -11,7 +11,7 @@ lang: zh_TW
 ---
 <!-- generated from vault; do not edit -->
 
-## 這是什麼
+## 專案說明
 
 你正在看的這個網站。表面上是 [Fuwari](https://github.com/saicaca/fuwari) 主題的 Astro 靜態部落格，實際上它是一整套自動化系統的最外層：筆記在 Obsidian 寫、存檔即發佈，中間的同步、驗證、轉換、部署全部自動。
 
