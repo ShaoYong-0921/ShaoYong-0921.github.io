@@ -23,7 +23,7 @@ lang: zh_TW
 - **發佈管線**：systemd timer 每 5 分鐘執行——vault 快照 → gitleaks 機密掃描 → 轉換腳本（front matter 驗證、slug 檢查、附件搬運）→ 推送 GitHub
 - **部署**：GitHub Actions 品質門檻→ GitHub Pages + Cloudflare DNS
 
-## 亮點
+## 特點
 
 - **存檔即發佈**：從 Obsidian 按下 Ctrl+S 到文章上線，全程零手動，實測約 5–8 分鐘
 - **原始筆記不進 GitHub**：公開的只有轉換後的產物，私人筆記物理隔離
