@@ -1,7 +1,7 @@
 ---
 title: 個人網站與筆記
 published: 2026-08-19
-description: 不只是一個部落格——從 Obsidian 筆記到自動上線的完整 pipeline，跑在一台樹梅派上。
+description: 不只是一個部落格 —— 從 Obsidian 筆記到自動上線的完整 pipeline
 tags:
 - 作品集
 - Astro
