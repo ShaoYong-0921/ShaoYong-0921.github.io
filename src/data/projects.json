@@ -9,6 +9,15 @@
 		"localPath": "/home/homepi/Desktop/fuwari"
 	},
 	{
+		"name": "SAMS 獎助學金申請與管理系統",
+		"desc": "軟體工程課程期末專題。六人團隊開發，PHP 自建 MVC 架構，涵蓋學生申請、導師推薦、單位審核到後台維運的完整流程。",
+		"tech": ["PHP", "MySQL", "Docker", "Bootstrap"],
+		"github": "https://github.com/ShaoYong-0921/scholarship",
+		"demo": "",
+		"article": "/posts/project-sams/",
+		"localPath": ""
+	},
+	{
 		"name": "演算法與競程練習",
 		"desc": "UVa、ZeroJudge、LeetCode的解題軌跡。",
 		"tech": ["C++", "Python", "演算法"],
