@@ -14,11 +14,10 @@
 
 > ### 圖片來源
 ![](./logo_TC.png)
+- 頭像：Qちゃん，出自《[ゆんゆん電波シンドローム](https://alliance-arts.co.jp/products/yunyun/)》（Alliance Arts）
+- 橫幅：自製
 
-> - 頭像：Qちゃん，出自《[ゆんゆん電波シンドローム](https://alliance-arts.co.jp/products/yunyun/)》（Alliance Arts）
-> - 橫幅：自製
-
-## 致謝
+## 網站主題
 
 本站主題改自 saicaca 的 **Fuwari**（MIT 授權），並自行移植到 Astro 7。
 
