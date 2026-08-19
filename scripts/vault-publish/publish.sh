@@ -25,8 +25,8 @@ fi
 python3 "$SITE/scripts/vault-publish/convert.py" --vault "$VAULT" --site "$SITE"
 
 cd "$SITE"
-if [ -n "$(git status --porcelain -- src/content/posts .vault-manifest.json)" ]; then
-    git add -- src/content/posts .vault-manifest.json
+if [ -n "$(git status --porcelain -- src/content/posts src/content/spec .vault-manifest.json)" ]; then
+    git add -- src/content/posts src/content/spec .vault-manifest.json
     git commit -q -m "Publish from vault (auto)"
     git push -q
     echo "published to site repo"

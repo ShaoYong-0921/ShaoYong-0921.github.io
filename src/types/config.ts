@@ -62,6 +62,10 @@ export type NavBarConfig = {
 
 export type ProfileConfig = {
 	avatar?: string;
+	/** 按下站上其他按鈕時，頭像暫時切換成的另一張圖（留空則停用） */
+	avatarAlt?: string;
+	/** avatarAlt 播完一輪的毫秒數，時間到即切回 avatar */
+	avatarAltDurationMs?: number;
 	name: string;
 	bio?: string;
 	links: {

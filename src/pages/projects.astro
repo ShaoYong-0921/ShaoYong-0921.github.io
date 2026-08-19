@@ -44,10 +44,16 @@ const cards = await Promise.all(
 <MainGridLayout title="作品集" description="專案與實作記錄">
     <div class="flex flex-col gap-4 mb-4">
         {cards.map((p) => (
-            <div class="card-base p-6 onload-animation">
+            <div class="card-base p-6 md:pl-9 onload-animation relative">
                 <div class="flex items-center justify-between gap-2 flex-wrap">
-                    <a href={p.github || p.demo} target="_blank" rel="noopener" class="font-bold text-xl text-90 hover:text-[var(--primary)] transition">
+                    <a href={p.article || p.github || p.demo} target={p.article ? undefined : "_blank"} rel={p.article ? undefined : "noopener"}
+                       class="transition group font-bold text-xl text-90 hover:text-[var(--primary)] dark:hover:text-[var(--primary)]
+                    active:text-[var(--title-active)] dark:active:text-[var(--title-active)]
+                    before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)]
+                    before:absolute before:top-[28px] before:left-[18px] before:hidden md:before:block">
                         {p.name}
+                        <Icon class="inline text-[1.5rem] text-[var(--primary)] md:hidden translate-y-0.5 absolute" name="material-symbols:chevron-right-rounded"></Icon>
+                        <Icon class="text-[var(--primary)] text-[1.5rem] transition hidden md:inline absolute translate-y-0.5 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0" name="material-symbols:chevron-right-rounded"></Icon>
                     </a>
                     {p.meta && (
                         <div class="flex items-center gap-3 text-sm text-black/50 dark:text-white/50 transition">

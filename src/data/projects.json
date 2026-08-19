@@ -1,34 +1,47 @@
 [
 	{
 		"name": "個人網站",
-		"desc": "本站。Fuwari 主題的自維護 Astro 7 移植版，GitHub Actions 門檻式部署（lint 與型別檢查紅燈即不上線）。",
+		"desc": "本站。Fuwari 主題的自維護 Astro 7 移植版，Obsidian 筆記存檔發佈的自動化管線，以樹梅派作為開發中樞。",
 		"tech": ["Astro", "TypeScript", "Tailwind", "GitHub Actions"],
 		"github": "https://github.com/ShaoYong-0921/ShaoYong-0921.github.io",
-		"demo": "https://shaoyong-0921.github.io/",
+		"demo": "https://shaoyong.dev/",
+		"article": "/posts/project-personal-website/",
 		"localPath": "/home/homepi/Desktop/fuwari"
 	},
 	{
-		"name": "C++ Primer 5e 練習",
-		"desc": "《C++ Primer 5th Edition》各章習題解答，逐章推進中。",
-		"tech": ["C++"],
-		"github": "https://github.com/ShaoYong-0921/Cpp-Primer-5e-Practice",
+		"name": "演算法與競程練習",
+		"desc": "UVa、ZeroJudge、LeetCode的解題軌跡。",
+		"tech": ["C++", "Python", "演算法"],
+		"github": "https://github.com/ShaoYong-0921/coding-practice",
 		"demo": "",
+		"article": "/posts/project-coding-practice/",
 		"localPath": ""
 	},
 	{
-		"name": "演算法與競程練習",
-		"desc": "UVa 線上解題與課程演算法實作的練習記錄。",
-		"tech": ["C++", "演算法"],
-		"github": "https://github.com/ShaoYong-0921/coding-practice",
+		"name": "C++ Primer 5e 練習",
+		"desc": "《C++ Primer 5th Edition》習題逐章解答，每題獨立檔案可單獨編譯。",
+		"tech": ["C++"],
+		"github": "https://github.com/ShaoYong-0921/Cpp-Primer-5e-Practice",
 		"demo": "",
+		"article": "/posts/project-cpp-primer/",
+		"localPath": ""
+	},
+	{
+		"name": "Air-detecter 空氣品質儀表板",
+		"desc": "高二自主學習 樹梅派IOT空氣品質監測專案（已封存）。",
+		"tech": ["Python", "Dash", "MongoDB"],
+		"github": "https://github.com/ShaoYong-0921/air-detecter",
+		"demo": "",
+		"article": "/posts/project-air-detecter/",
 		"localPath": ""
 	},
 	{
 		"name": "Selenium 自動化練習",
-		"desc": "以 Python + Selenium 練習網頁自動化操作的專案。",
+		"desc": "高一的第一個網頁爬蟲小專案 —— Python + Selenium （已封存）。",
 		"tech": ["Python", "Selenium"],
 		"github": "https://github.com/ShaoYong-0921/selenium-practice",
 		"demo": "",
+		"article": "/posts/project-selenium-practice/",
 		"localPath": ""
 	}
 ]

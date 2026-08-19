@@ -8,6 +8,9 @@ const config = profileConfig;
 ---
 <div class="card-base p-3">
     <a aria-label="Go to About Page" href={url('/about/')}
+       data-avatar-idle={config.avatarAlt ? config.avatar : undefined}
+       data-avatar-alt={config.avatarAlt}
+       data-avatar-alt-ms={config.avatarAlt ? String(config.avatarAltDurationMs ?? 1000) : undefined}
        class="group block relative mx-auto mt-1 lg:mx-0 lg:mt-0 mb-3
        max-w-[12rem] lg:max-w-none overflow-hidden rounded-xl active:scale-95">
         <div class="absolute transition pointer-events-none group-hover:bg-black/30 group-active:bg-black/50
@@ -37,3 +40,57 @@ const config = profileConfig;
     </div>
 </div>
 
+<script>
+    // 按下站上其他按鈕／連結時，頭像切換成另一個姿勢並完整播完一輪，然後自動變回原本的。
+    // 播放期間再按不會打斷（等這輪跑完）。事件委派綁在 document 上，swup 換頁後仍有效。
+    if (!document.documentElement.dataset.avatarReactBound) {
+        document.documentElement.dataset.avatarReactBound = "1";
+
+        const holder = () => document.querySelector("[data-avatar-alt]");
+
+        const setPose = (pose: "idle" | "alt") => {
+            const el = holder();
+            if (!(el instanceof HTMLElement)) return;
+            const img = el.querySelector("img");
+            const src = pose === "alt" ? el.dataset.avatarAlt : el.dataset.avatarIdle;
+            // 兩張圖網址不同，換 src 會讓 GIF 從第一幀重新播放
+            if (img && src && img.getAttribute("src") !== src) img.setAttribute("src", src);
+        };
+
+        let preloaded = false;
+        const preload = () => {
+            if (preloaded) return;
+            const el = holder();
+            if (el instanceof HTMLElement && el.dataset.avatarAlt) {
+                preloaded = true;
+                new Image().src = el.dataset.avatarAlt;
+            }
+        };
+
+        // 觸發對象：站上任何按鈕與連結，含頭像本身。
+        // 側邊欄在 swup 容器外不會被替換，所以點頭像跳往關於頁時動畫仍會播完。
+        const trigger = (target: EventTarget | null) => {
+            if (!(target instanceof Element)) return false;
+            return !!target.closest("a, button, [role='button']");
+        };
+
+        // 滑過就先把替換圖抓下來，按下去才不會有空檔
+        document.addEventListener("pointerover", (e) => {
+            if (trigger(e.target)) preload();
+        });
+
+        let playing = false;
+        document.addEventListener("pointerdown", (e) => {
+            if (playing || !trigger(e.target)) return;
+            const el = holder();
+            if (!(el instanceof HTMLElement)) return;
+            preload();
+            playing = true;
+            setPose("alt");
+            window.setTimeout(() => {
+                setPose("idle");
+                playing = false;
+            }, Number(el.dataset.avatarAltMs) || 1000);
+        });
+    }
+</script>

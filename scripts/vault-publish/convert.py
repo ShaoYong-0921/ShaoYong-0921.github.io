@@ -3,6 +3,7 @@
 
 掃描 vault 的 notes/ 與 garden/ 中標 publish: true 的筆記，驗證後轉換為
 Fuwari 文章（src/content/posts/<slug>/index.md + 同資料夾附件）。
+另掃描 pages/ 中標 publish: true 的固定頁（目前僅 about），輸出到 src/content/spec/。
 任一錯誤即整批不寫入（紅燈即不上線）；錯誤一次全部列出。
 規則定義：網站 repo docs/design/ 下的三份設計文件。
 """
@@ -20,6 +21,8 @@ import yaml
 MARKER = "<!-- generated from vault; do not edit -->"
 MANIFEST_NAME = ".vault-manifest.json"
 SCAN_DIRS = ("notes", "garden")
+PAGE_DIR = "pages"
+PAGE_TARGETS = {"about": Path("src") / "content" / "spec" / "about.md"}
 SLUG_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".avif"}
 FM_RE = re.compile(r"^---\r?\n(.*?)\r?\n---\r?\n?(.*)$", re.DOTALL)
@@ -80,6 +83,28 @@ def collect_notes(vault: Path, res: Result) -> list[Note]:
                 continue
             notes.append(Note(p, rel, fm, body))
     return notes
+
+
+def collect_pages(vault: Path, res: Result) -> list[Note]:
+    """掃描 pages/ 的固定頁（about 等），規則與筆記相同但不需 slug/日期。"""
+    pages = []
+    base = vault / PAGE_DIR
+    if not base.is_dir():
+        return pages
+    for p in sorted(base.glob("*.md")):
+        rel = p.relative_to(vault).as_posix()
+        fm, body = parse_front_matter(p.read_text(encoding="utf-8"))
+        if isinstance(fm, yaml.YAMLError):
+            res.error(rel, "front-matter", f"YAML 解析失敗：{fm}")
+            continue
+        if fm is None or fm.get("publish") is not True:
+            continue
+        if p.stem not in PAGE_TARGETS:
+            supported = "、".join(sorted(PAGE_TARGETS))
+            res.error(rel, "page", f"未知的固定頁名稱：{p.stem}（目前支援：{supported}）")
+            continue
+        pages.append(Note(p, rel, fm, body))
+    return pages
 
 
 def coerce_date(value):
@@ -246,6 +271,11 @@ def run(vault: Path, site: Path, dry_run: bool = False) -> Result:
         image = resolve_image_field(n, vault, res)
         rendered[n.slug] = (n, render(n, body, image))
 
+    rendered_pages: dict[str, tuple[Note, str]] = {}
+    for pg in collect_pages(vault, res):
+        pg_body = convert_body(pg, slug_by_name, vault, res)
+        rendered_pages[pg.path.stem] = (pg, f"{MARKER}\n\n{pg_body.strip()}\n")
+
     if res.errors:
         return res
 
@@ -255,6 +285,9 @@ def run(vault: Path, site: Path, dry_run: bool = False) -> Result:
         res.actions.append(f"write posts/{slug}/ （來源 {n.rel}，附件 {len(n.assets)}）")
     for s in stale:
         res.actions.append(f"delete posts/{s}/ （來源筆記已取消發佈）")
+    for name, (pg, _) in sorted(rendered_pages.items()):
+        target = PAGE_TARGETS[name].as_posix()
+        res.actions.append(f"write {target} （來源 {pg.rel}，附件 {len(pg.assets)}）")
 
     if dry_run:
         return res
@@ -267,6 +300,13 @@ def run(vault: Path, site: Path, dry_run: bool = False) -> Result:
         (out_dir / "index.md").write_text(content, encoding="utf-8")
         for src, name in n.assets:
             shutil.copy2(src, out_dir / name)
+
+    for name, (pg, content) in rendered_pages.items():
+        target = site / PAGE_TARGETS[name]
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(content, encoding="utf-8")
+        for src, asset_name in pg.assets:
+            shutil.copy2(src, target.parent / asset_name)
 
     for s in stale:
         out_dir = posts_dir / s

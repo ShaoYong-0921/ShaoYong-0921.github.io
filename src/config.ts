@@ -17,11 +17,11 @@ export const siteConfig: SiteConfig = {
 	},
 	banner: {
 		enable: true,
-		src: "assets/images/demo-banner.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+		src: "assets/images/banner-circuit.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 		position: "center", // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
 		credit: {
-			enable: true, // Display the credit text of the banner image
-			text: "空色天絵 / NEO TOKYO NOIR 01", // Credit text to be displayed
+			enable: false, // 自製圖樣，無需標示來源
+			text: "", // Credit text to be displayed
 			url: "", // (Optional) URL link to the original artwork or artist's page
 		},
 	},
@@ -57,9 +57,11 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "/avatar.gif", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	avatar: "/avatar.gif",
+	avatarAlt: "/avatar-alt.gif", // 按下其他按鈕時暫時切換的姿勢
+	avatarAltDurationMs: 990, // 該 GIF 一輪長度（33 幀 × 30ms） // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 	name: "ShaoYong",
-	bio: "資工學生，後端與 DevOps 練習中。",
+	bio: "資工學生， DevOps 練習中。",
 	links: [
 		{
 			name: "GitHub",
@@ -70,7 +72,7 @@ export const profileConfig: ProfileConfig = {
 };
 
 export const licenseConfig: LicenseConfig = {
-	enable: true,
+	enable: false,
 	name: "CC BY-NC-SA 4.0",
 	url: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
 };

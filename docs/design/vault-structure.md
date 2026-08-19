@@ -16,6 +16,7 @@
 vault/
 ├── notes/          一般筆記（中文檔名 OK；預設私密，publish: true 才發佈）
 ├── garden/         M5 即時筆記牆的公開範圍；M5 之前當一般資料夾用
+├── pages/          網站固定頁內容（2026-08-19 追加；目前僅 about.md）
 ├── attachments/    全 vault 附件集中地（Obsidian「預設附件位置」指到這）
 ├── templates/      Obsidian 模板；「發佈用 front matter 模板」放這
 └── .obsidian/      Obsidian 設定
@@ -23,11 +24,12 @@ vault/
 
 ## 規則
 
-1. **發佈掃描範圍**：轉換腳本掃 `notes/` 與 `garden/` 兩個資料夾中 `publish: true` 的筆記。
+1. **發佈掃描範圍**：轉換腳本掃 `notes/` 與 `garden/` 兩個資料夾中 `publish: true` 的筆記，輸出為文章；另掃 `pages/` 中 `publish: true` 的固定頁（見規則 6）。
 2. **檔名**：筆記檔名自由（中文為主）；發佈的網址一律來自 front matter 的 `slug`（見對應表文件）。
 3. **附件**：一律進 `attachments/`；筆記內用 Obsidian 預設的 `![[檔名]]` 嵌入。單檔 > 2MB 轉換時警告（spec 風險表：vault 附件肥大）。
 4. **`.obsidian/` 進 git**，但 `.gitignore` 排除 `workspace.json`、`workspace-mobile.json` 與快取——這些是各裝置的視窗狀態，同步會互相打架。
 5. **機密紀律**：憑證、token 一律不進筆記（spec §8）；vault repo 的 CI 掛 gitleaks 把關。
+6. **固定頁（2026-08-19 追加）**：`pages/` 存放網站固定頁的內容，**檔名即頁面代號**，目前只支援 `about.md` → `src/content/spec/about.md`；未知檔名視為錯誤（不靜默略過），要新增頁面須同步擴充 `convert.py` 的 `PAGE_TARGETS`。固定頁不需要 `slug` 與 `published`（沒有網址與發佈日期的概念），只需 `publish: true`；其餘規則與筆記一致——wiki 連結會驗證並轉為站內網址、附件一樣走 `attachments/`、任一錯誤整批不寫入。對應地，`publish.sh` 的提交範圍已含 `src/content/spec`。**來源筆記若刪除，網站既有頁面保留不動**（About 頁缺檔會讓建置失敗，故不做 stale 清除）。
 
 ## 待 M3 銜接
 
