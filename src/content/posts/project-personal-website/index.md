@@ -13,7 +13,7 @@ lang: zh_TW
 
 ## 專案說明
 
-你正在看的這個網站。表面上是 [Fuwari](https://github.com/saicaca/fuwari) 主題的 Astro 靜態部落格，實際上它是一整套自動化系統的最外層：筆記在 Obsidian 寫、存檔即發佈，中間的同步、驗證、轉換、部署全部自動。
+網站基於 [Fuwari](https://github.com/saicaca/fuwari) 主題開發， Astro 靜態部落格，筆記在 Obsidian 寫、存檔和發佈，中間的同步、驗證、轉換、部署由樹梅派自動處理。
 
 ## 架構
 
@@ -21,7 +21,7 @@ lang: zh_TW
 - **筆記層**：Obsidian + Self-hosted LiveSync，多裝置（Windows、iPad）經自架 CouchDB 端到端加密同步
 - **中樞**：一台樹梅派跑 8 個 Docker 容器——CouchDB、同步橋接、code-server、瀏覽數 API（FastAPI + SQLite）、Cloudflare Tunnel、Watchtower 自動部署等
 - **發佈管線**：systemd timer 每 5 分鐘執行——vault 快照 → gitleaks 機密掃描 → 轉換腳本（front matter 驗證、slug 檢查、附件搬運）→ 推送 GitHub
-- **部署**：GitHub Actions 品質門檻（biome + astro check，紅燈不部署）→ GitHub Pages + Cloudflare DNS
+- **部署**：GitHub Actions 品質門檻→ GitHub Pages + Cloudflare DNS
 
 ## 亮點
 
@@ -30,8 +30,8 @@ lang: zh_TW
 - **門檻式部署**：每一關（機密掃描、格式驗證、lint、型別檢查）紅燈都會擋下發佈
 - **瀏覽數 API**：派上的 FastAPI 服務經 Cloudflare Tunnel 出公網，派本身零公網 port
 
-## 學到的
+## 目前狀態
 
-靜態網站本身不難，難的是圍繞它的工程：多裝置同步的衝突處理、加密與機密管理、CI/CD 的門檻設計、以及「重灌整台電腦後如何從備份完整復活」的災難演練——這些都在這個專案裡實際踩過一遍。
+持續開發中
 
 **GitHub**：[ShaoYong-0921.github.io](https://github.com/ShaoYong-0921/ShaoYong-0921.github.io)
