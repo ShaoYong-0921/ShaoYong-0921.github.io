@@ -11,9 +11,6 @@
 - [文章](/archive/)：網站建置、DevOps、學習過程的記錄、刷題記錄
 - [作品集](/projects/)：專案與實作介紹
 
-## 聯絡
-
-- GitHub：[ShaoYong-0921](https://github.com/ShaoYong-0921)
 
 > ### 圖片來源
 ![](./logo_TC.png)
