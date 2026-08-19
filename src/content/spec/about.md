@@ -16,5 +16,7 @@
 - GitHub：[ShaoYong-0921](https://github.com/ShaoYong-0921)
 
 > ### 圖片來源
-> - 橫幅：空色天絵 / NEO TOKYO NOIR 01
-> - 其他：[Unsplash](https://unsplash.com/)
+![](./logo_TC.png)
+
+> - 頭像：Qちゃん，出自《[ゆんゆん電波シンドローム](https://alliance-arts.co.jp/products/yunyun/)》（Alliance Arts）
+> - 橫幅：自製
