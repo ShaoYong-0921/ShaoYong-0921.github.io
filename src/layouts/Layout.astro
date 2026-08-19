@@ -405,6 +405,21 @@ const setup = () => {
 		}
 	})
 	window.swup.hooks.on('content:replace', initCustomScrollbar)
+	// swup 以 DOM 置換的方式換頁，新內容裡的內嵌 <script> 不會自動執行
+	// （例如 ::github{} 卡片靠 script 抓 API，站內導航進來就會卡在灰色骨架）。
+	// 這裡把它們換成新建的 script 節點以觸發執行；容器內的 script 都來自剛載入的頁面，不會重複執行。
+	window.swup.hooks.on('content:replace', () => {
+		const container = document.getElementById('swup-container')
+		if (!container) return
+		for (const old of Array.from(container.querySelectorAll('script'))) {
+			const fresh = document.createElement('script')
+			for (const attr of Array.from(old.attributes)) {
+				fresh.setAttribute(attr.name, attr.value)
+			}
+			fresh.textContent = old.textContent
+			old.replaceWith(fresh)
+		}
+	})
 	window.swup.hooks.on('visit:start', (visit: {to: {url: string}}) => {
 		// change banner height immediately when a link is clicked
 		const bodyElement = document.querySelector('body')

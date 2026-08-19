@@ -68,6 +68,11 @@ export const profileConfig: ProfileConfig = {
 			icon: "fa6-brands:github", // Visit https://icones.js.org/ for icon codes
 			url: "https://github.com/ShaoYong-0921",
 		},
+		{
+			name: "LeetCode",
+			icon: "local:leetcode", // src/icons/leetcode.svg（simple-icons 官方圖形）
+			url: "https://leetcode.com/u/ShaoYong-0921/",
+		},
 	],
 };
 
