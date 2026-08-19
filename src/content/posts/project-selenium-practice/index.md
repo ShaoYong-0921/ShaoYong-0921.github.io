@@ -1,5 +1,5 @@
 ---
-title: 作品介紹：Selenium 網頁自動化
+title: Selenium 網頁自動化
 published: 2026-08-19
 description: 2021 年疫情時期的第一個自動化專案——用 Python + Selenium 把每天重複的網頁操作變成一行指令。
 tags:

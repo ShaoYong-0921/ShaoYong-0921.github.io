@@ -1,5 +1,5 @@
 ---
-title: 作品介紹：C++ Primer 5e 逐章練習
+title: C++ Primer 5e 逐章練習
 published: 2026-08-19
 description: 被一本經典磚頭虐的紀錄　——《C++ Primer 5th Edition》習題。
 tags:
